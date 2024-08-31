@@ -121,12 +121,12 @@ function saveAllTodos(todos) {
 }
 
 //edit todo
-let currentTodoId = null;
+let todoEditId = null;
 
 function editTodo(e) {
-  currentTodoId = Number(e.target.dataset.todoId);
+  todoEditId = Number(e.target.dataset.todoId);
   let todos = getAllTodos();
-  const todo = todos.find((t) => t.id === currentTodoId);
+  const todo = todos.find((t) => t.id === todoEditId);
 
   document.getElementById("modalInput").value = todo.title;
   document.getElementById("editModal").style.display = "block";
@@ -138,18 +138,20 @@ document.querySelector(".close").onclick = function () {
 };
 
 // Save changes
-document.getElementById("saveEdit").onclick = function () {
+const saveEditedTodo = document.getElementById("saveEdit");
+
+saveEditedTodo.addEventListener("click", () => {
   let todos = getAllTodos();
   const newTitle = document.getElementById("modalInput").value;
 
   if (newTitle.trim() !== "") {
-    const todo = todos.find((t) => t.id === currentTodoId);
+    const todo = todos.find((t) => t.id === todoEditId);
     todo.title = newTitle.trim();
     saveAllTodos(todos);
     isComplete();
     document.getElementById("editModal").style.display = "none";
   }
-};
+});
 
 // Close the modal if user clicks outside of it
 window.onclick = function (event) {
